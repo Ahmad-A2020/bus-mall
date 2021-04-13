@@ -4,7 +4,11 @@ let products=[];
 let pictureNum=3
 let chanceNum=10;
 let attemptnum=0;
+let oldArray=[];
 let button=document.createElement('button');
+let votesArr=[];
+let shownArr=[];
+let namesArr=[];
 
 function product(name,url){
     this.name=name;
@@ -12,6 +16,7 @@ function product(name,url){
     this.vote=0;
     this.show=0;
     products.push(this);
+    namesArr.push(this.name);
 }
 
 
@@ -63,19 +68,17 @@ function threevaluesGenerators(){
 
 function ThreeRandomImages(){  
     randomArray=threevaluesGenerators();   
+    let compareArray=randomArray.concat(oldArray);
+    console.log(compareArray);
+   
 
     for(let i=0;i<pictureNum;i++){
-        for(let j=0;j<pictureNum;j++){
-            if (i==j){
-                continue;
-            }else{
-                while (randomArray[i]===randomArray[j]){
-                    randomArray[i]=generator();
-                }
-            }           
-
-        }       
-
+        compareArray=randomArray.concat(oldArray);
+        compareArray.splice(i,1);
+        console.log(compareArray);
+        while (compareArray.includes(randomArray[i])){
+            randomArray[i]=generator();
+        }
     }
     console.log(randomArray);
     // 
@@ -87,18 +90,11 @@ function ThreeRandomImages(){
     products[randomArray[0]].show= products[randomArray[0]].show+1;
     products[randomArray[1]].show++;
     products[randomArray[2]].show++;
-    
-
+    oldArray=Array.from(randomArray);
 
 }
 ThreeRandomImages();
 
-
-// console.log(products[0].show);
-// Add Events. 
-// leftPhoto.addEventListener('click', changePicture);
-// midPhoto.addEventListener('click', changePicture);
-// rightPhoto.addEventListener('click', changePicture);
 picturesDivision.addEventListener('click', changePicture);
 console.log(picturesDivision);
 
@@ -122,18 +118,13 @@ function changePicture(event){
 
                   
         }
-        // console.log(products[randomArray[0]].vote)
     }else{
         
         container.appendChild(button),
         button.textContent='View Results'
-        leftPhoto.removeEventListener('click', changePicture);
-        midPhoto.removeEventListener('click', changePicture);
-        rightPhoto.removeEventListener('click', changePicture);
-        // results();
-        
-
-
+        picturesDivision.removeEventListener('click', changePicture);
+        votesCalculation ();
+        showsCalculation ();
 
 
     }
@@ -142,6 +133,19 @@ function changePicture(event){
 }
 
 button.addEventListener('click',results);
+
+// To create the final votes number array
+function votesCalculation (){
+    for (let i=0; i<products.length; i++){
+        votesArr.push(products[i].vote);
+    }
+}
+// To create the final votes number array
+function showsCalculation (){
+    for (let i=0; i<products.length; i++){
+        shownArr.push(products[i].show);
+    }
+}
 
 function results(){
 
@@ -166,5 +170,48 @@ function results(){
         sndPoint.textContent=`Number of Shows: ${products[i].show}`;        
     }
 
-}
+    chart();
 
+   button.removeEventListener('click',results);
+
+}
+ // This is couting from samer demo, and I have change as necessary. 
+function chart() {
+    let ctx = document.getElementById('myChart').getContext('2d');
+    
+    let chart= new Chart(ctx,{
+      // what type is the chart
+     type: 'bar',
+  
+    //  the data for showing
+     data:{
+      //  for the names
+        labels: namesArr,
+        
+        datasets: [
+          {
+          label: 'votes',
+          data: votesArr,
+          backgroundColor: [
+            'rgb(251, 93, 76)',
+          ],
+    
+          borderWidth: 1
+        },
+  
+        {
+          label: 'shown',
+          data: shownArr,
+          backgroundColor: [
+            'black',
+          ],
+    
+          borderWidth: 1
+        }
+        
+      ]
+      },
+      options: {}
+    });
+    
+}
