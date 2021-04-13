@@ -4,6 +4,7 @@ let products=[];
 let pictureNum=3
 let chanceNum=10;
 let attemptnum=0;
+let oldArray=[];
 let button=document.createElement('button');
 
 function product(name,url){
@@ -63,19 +64,17 @@ function threevaluesGenerators(){
 
 function ThreeRandomImages(){  
     randomArray=threevaluesGenerators();   
+    let compareArray=randomArray.concat(oldArray);
+    console.log(compareArray);
+   
 
     for(let i=0;i<pictureNum;i++){
-        for(let j=0;j<pictureNum;j++){
-            if (i==j){
-                continue;
-            }else{
-                while (randomArray[i]===randomArray[j]){
-                    randomArray[i]=generator();
-                }
-            }           
-
-        }       
-
+        compareArray=randomArray.concat(oldArray);
+        compareArray.splice(i,1);
+        console.log(compareArray);
+        while (compareArray.includes(randomArray[i])){
+            randomArray[i]=generator();
+        }
     }
     console.log(randomArray);
     // 
@@ -87,6 +86,7 @@ function ThreeRandomImages(){
     products[randomArray[0]].show= products[randomArray[0]].show+1;
     products[randomArray[1]].show++;
     products[randomArray[2]].show++;
+    oldArray=Array.from(randomArray);
     
 
 
@@ -130,12 +130,7 @@ function changePicture(event){
         leftPhoto.removeEventListener('click', changePicture);
         midPhoto.removeEventListener('click', changePicture);
         rightPhoto.removeEventListener('click', changePicture);
-        // results();
-        
-
-
-
-
+        // results();  
     }
     
     
