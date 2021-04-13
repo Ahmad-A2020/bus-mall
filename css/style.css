@@ -1,0 +1,13 @@
+#container{
+    display: flex;
+    text-align: center;
+}
+#container2{
+    text-align: center;
+    
+
+}
+#container2 ul li{
+    list-style: none;
+
+}
