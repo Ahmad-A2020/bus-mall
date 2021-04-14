@@ -1,13 +1,51 @@
+body{
+    background-color: rgb(143, 216, 226);
+
+}
+header{
+    position: relative;
+    bottom: 10px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    background-color: rosybrown;
+    height: 70px;
+}
 #container{
     display: flex;
     text-align: center;
+    justify-content: center;
+    background-color: powderblue;
+}
+#container img{
+    margin: 15px;
 }
 #container2{
+    /* display: flex; */
+    /* justify-content: center; */
+
     text-align: center;
+    height: 30%;
+    background-color: rgb(143, 216, 226);
+    background-image: url(https://tmadc.org/wp-content/uploads/2020/09/marketing-2483867_1920.jpg);
+    text-align: center;
+
+    /* background-repeat: no-repeat; */
     
 
 }
+#container2 ul {
+    position: relative;
+    left: 40%;
+    
+    border-style: dashed;
+    width: 200px;
+
+
+}
+
 #container2 ul li{
-    list-style: none;
+    /* list-style: none; */
+    list-style-position: inside;
 
 }
