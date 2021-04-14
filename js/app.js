@@ -10,6 +10,8 @@ let votesArr=[];
 let shownArr=[];
 let namesArr=[];
 
+
+
 function product(name,url){
     this.name=name;
     this.url=url;
@@ -18,7 +20,6 @@ function product(name,url){
     products.push(this);
     namesArr.push(this.name);
 }
-
 
 new product('Bag','../img/bag.jpg');
 new product('Banana','../img/banana.jpg');
@@ -81,28 +82,26 @@ function ThreeRandomImages(){
         }
     }
     console.log(randomArray);
-    // 
-
+    // This for picture url  
     leftPhoto.src=products[randomArray[0]].url;
     midPhoto.src=products[randomArray[1]].url;
     rightPhoto.src=products[randomArray[2]].url;
+
     // this is for show increment 
     products[randomArray[0]].show= products[randomArray[0]].show+1;
     products[randomArray[1]].show++;
     products[randomArray[2]].show++;
     oldArray=Array.from(randomArray);
+    storeData();
 
 }
-ThreeRandomImages();
+// ThreeRandomImages();
 
 picturesDivision.addEventListener('click', changePicture);
 console.log(picturesDivision);
 
 function changePicture(event){
     console.log(event.target);
-
-    
-    
     if(attemptnum<chanceNum){
         switch(event.target.id){
             case 'left':
@@ -110,13 +109,10 @@ function changePicture(event){
             case 'middle':  
                 products[randomArray[1]].vote++;
             case 'right':  
-                products[randomArray[2]].vote++;
-                
+                products[randomArray[2]].vote++;                
             default:
                 attemptnum++;
-                ThreeRandomImages();                         
-
-                  
+                ThreeRandomImages();                    
         }
     }else{
         
@@ -125,11 +121,8 @@ function changePicture(event){
         picturesDivision.removeEventListener('click', changePicture);
         votesCalculation ();
         showsCalculation ();
-
-
-    }
-    
-    
+    } 
+   
 }
 
 button.addEventListener('click',results);
@@ -215,3 +208,32 @@ function chart() {
     });
     
 }
+
+// This for lab 13 create storage and store the date in it. 
+// To store data at storage requarly 
+function storeData(){
+
+    let data = JSON.stringify(products);     
+    localStorage.setItem('products',data);
+    
+
+} 
+// To get data at storage requarlly.
+
+function invokeData(){
+
+    let data2=localStorage.getItem('products');
+    console.log(data2);
+
+    let DataInvoked=JSON.parse(data2);
+    console.log(DataInvoked);
+    if (DataInvoked !=null){
+        products=DataInvoked;
+    }
+    // products=DataInvoked;
+    ThreeRandomImages();
+    
+}
+
+invokeData()
+// ThreeRandomImages();
